@@ -14,19 +14,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.simpleapp.ui.Screens.HomeScreen.HomeViewModel
 import com.example.taskapp.domain.model.Resource
+import com.example.taskapp.util.greetUserByTimeOfDay
 
 @Composable
 fun HomeScreen(userName: String) {
     val homeViewModel: HomeViewModel = hiltViewModel()
 
     val statList = homeViewModel.medicineState.value
-        Log.e("username",userName)
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
         ) {
-            Text(modifier = Modifier.padding(10.dp),text = userName)
+            Text(modifier = Modifier.padding(10.dp),text = greetUserByTimeOfDay(userName))
             when(statList){
                 is Resource.Loading->{
                     Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
