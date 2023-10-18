@@ -18,7 +18,7 @@ import com.example.taskapp.ui.components.ContentTextField
 import com.example.taskapp.ui.components.TextFiledPassword
 
 @Composable
-fun LoginScreen(navigationController:NavHostController) {
+fun LoginScreen(navigationController: NavHostController) {
     val viewModel: LoginViewModel = hiltViewModel()
     Column(
         modifier = Modifier
@@ -27,16 +27,35 @@ fun LoginScreen(navigationController:NavHostController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ContentTextField(modifier = Modifier.fillMaxWidth(),label = "userName", text = viewModel.userName.value, onTextChange = {
-            viewModel.onTextChangeText(it, true)
-        })
+        ContentTextField(
+            modifier = Modifier.fillMaxWidth(),
+            label = "userName",
+            text = viewModel.userName.value,
+            message = "filed is required",
+            isError = viewModel.errorUserName.value,
+            onTextChange = {
+                viewModel.onTextChangeText(it, true)
+            })
 
-        TextFiledPassword(modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp), label = "password", password = viewModel.password.value, onTextChange = {
-            viewModel.onTextChangeText(it, false)
-        })
+        TextFiledPassword(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            label = "password",
+            password = viewModel.password.value,
+            onTextChange = {
+                viewModel.onTextChangeText(it, false)
+            })
 
-        Button(modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),onClick = { navigationController.navigate(
-            Screen.SecondScreen.route+"/${viewModel.userName.value}") }) {
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp), onClick = {
+            if (viewModel.login()) {
+                navigationController.navigate(
+                    Screen.SecondScreen.route + "/${viewModel.userName.value}"
+                )
+            }
+        }) {
             Text(text = "Login")
         }
     }

@@ -12,19 +12,25 @@ import androidx.compose.ui.Modifier
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentTextField(
-    modifier: Modifier = Modifier,
-    label: String,
-    text: String,
-    onTextChange: (String) -> Unit
+    modifier: Modifier = Modifier, label: String, text: String, onTextChange: (String) -> Unit,
+    isError: Boolean = false, message: String = ""
 ) {
-    TextField(
-        value = text,
+    TextField(value = text,
         onValueChange = onTextChange,
         label = { Text(label) },
-        modifier = modifier
-            .fillMaxWidth(),
+        isError = isError,
+
+        modifier = modifier.fillMaxWidth(),
         colors = TextFieldDefaults.textFieldColors(
             containerColor = MaterialTheme.colorScheme.surface
-        )
-    )
+        ),
+        supportingText = {
+            if (isError) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = message,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        })
 }
